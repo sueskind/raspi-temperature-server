@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
     <title>Hallo</title>
 </head>
+
 <body>
-Welt
+<h1>Temperature</h1>
+<canvas id="chart" width="400" height="400"></canvas>
+<script>
+
+    async function getData() {
+        const res = await fetch("/data");
+        const data = await res.json();
+        console.log(data)
+    }
+
+    setInterval(getData, 1000);
+
+</script>
 </body>
 </html>
