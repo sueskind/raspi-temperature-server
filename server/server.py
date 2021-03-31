@@ -11,9 +11,14 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/data")
-def get_data():
+@app.route("/previous")
+def get_previous():
     return dh.get_data()
+
+
+@app.route("/update")
+def get_update():
+    return dh.get_update()
 
 
 if __name__ == '__main__':

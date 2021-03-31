@@ -59,11 +59,9 @@
     });
 
 
-    async function refresh() {
-        const res = await fetch("/data");
+    async function initialize() {
+        const res = await fetch("/previous");
         const data = await res.json();
-
-        console.log(data);
 
         chart.data.labels = data.times;
         chart.data.datasets = [];
@@ -78,14 +76,28 @@
                 borderColor: colors[i] + "CC", // CC is 80% alpha
                 backgroundColor: colors[i] + "33", // 33 is 20% alpha
                 data: data.sensors[i]
-            })
+            });
         }
         chart.update();
     }
 
-    refresh(); // call once
+    async function update() {
+        const res = await fetch("/update");
+        const data = await res.json();
 
-    setInterval(refresh, 5000); // auto refresh every 5 seconds
+        chart.data.labels.push(data.time)
+        for (let i = 0; i < data.sensors.length; i++) {
+            chart.data.datasets[i].data.push(data.sensors[i]);
+        }
+
+        chart.update();
+
+        console.log(chart.data.datasets[0])
+    }
+
+    initialize(); // call once
+
+    setInterval(update, 5000); // auto refresh every 5 seconds
 
 </script>
 </body>
