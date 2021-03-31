@@ -4,8 +4,15 @@ import random
 
 class DataHandler:
 
+    def __init__(self):
+        self.sensors = 3
+        self.data = {"times": [], "sensors": [list() for _ in range(self.sensors)]}
+
+    def _add_data(self):
+        self.data["times"].append(dt.datetime.now().isoformat())
+        for sensor in self.data["sensors"]:
+            sensor.append(random.random() * 2 + 25)
+
     def get_data(self):
-        return {
-            "times": [dt.datetime(2020, 3, 3, 12, i, random.randint(0, 59)).isoformat() for i in range(3, 10)],
-            "sensors": [[random.random() * 5 + 30 for _ in range(3, 10)] for _ in range(3)]
-        }
+        self._add_data()
+        return self.data
