@@ -45,7 +45,7 @@
                         tooltipFormat: "HH:mm:ss"
                     },
                     ticks: {
-                        autoSkipPadding: 40
+                        autoSkipPadding: 40 // more space between ticks
                     }
                 }],
                 yAxes: [{
@@ -75,17 +75,17 @@
                 pointRadius: 5,
                 pointHitRadius: 5,
                 pointHoverRadius: 10,
-                borderColor: colors[i] + "CC",
-                backgroundColor: colors[i] + "33",
+                borderColor: colors[i] + "CC", // CC is 80% alpha
+                backgroundColor: colors[i] + "33", // 33 is 20% alpha
                 data: data.sensors[i]
             })
         }
         chart.update();
     }
 
-    refresh();
+    refresh(); // call once
 
-    setInterval(refresh, 5000);
+    setInterval(refresh, 5000); // auto refresh every 5 seconds
 
 </script>
 </body>
