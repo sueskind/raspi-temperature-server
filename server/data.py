@@ -8,7 +8,8 @@ class DataHandler:
         self.sensors = 3
         start_values = 5
         self.data = {
-            "times": [(dt.datetime.now() + dt.timedelta(seconds=-i * 5)).isoformat() for i in range(start_values)],
+            "times": [(dt.datetime.now() + dt.timedelta(seconds=(i - start_values) * 5)).isoformat()
+                      for i in range(start_values)],
             "sensors": [[random.random() * 2 + 25 for _ in range(start_values)] for _ in range(self.sensors)]}
 
     def get_data(self):
