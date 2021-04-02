@@ -24,7 +24,7 @@ class DataHandler:
         self.con.commit()
 
     def get_range(self, start, end):
-        query = self.cur.execute("SELECT * FROM measurements WHERE time >= ? AND time <= ?",
+        query = self.cur.execute("SELECT * FROM measurements WHERE time >= ? AND time <= ?;",
                                  (int(start.timestamp()), int(end.timestamp())))
         time, *sensors = zip(*query)
         return {
@@ -33,9 +33,15 @@ class DataHandler:
         }
 
     def get_latest(self):
-        query = self.cur.execute("SELECT * FROM measurements WHERE ")
+        query = self.cur.execute("SELECT * FROM measurements ORDER BY time DESC LIMIT 1;")
+        time, *sensors = list(query)[0]
+        return {
+            "time": time,
+            "sensors": sensors
+        }
 
 
 if __name__ == '__main__':
     dh = DataHandler()
     res = dh.get_range(dt.datetime(2021, 1, 1), dt.datetime(2022, 1, 1))
+    res = dh.get_latest()
