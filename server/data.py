@@ -1,3 +1,4 @@
+import datetime as dt
 import sqlite3
 
 from constants import DB_PATH
@@ -16,14 +17,20 @@ class DataHandler:
                          + ");")
         self.con.commit()
 
-    def add_row(self, time, *measurements):
+    def add_row(self, time, measurements):
+        t = int(time.timestamp())
         self.cur.execute("INSERT INTO measurements VALUES (" + ",".join("?" * (self.sensor_count + 1)) + ");",
-                         (time,) + measurements)
+                         (t,) + measurements)
         self.con.commit()
 
     def get_range(self, start, end):
-        query = self.cur.execute("SELECT * FROM measures WHERE time >= ? AND time <= ?",
+        query = self.cur.execute("SELECT * FROM measurements WHERE time >= ? AND time <= ?",
                                  (int(start.timestamp()), int(end.timestamp())))
+        time, *sensors = zip(*query)
+        return {
+            "time": [dt.datetime.fromtimestamp(t).isoformat() for t in time],
+            "sensors": sensors
+        }
 
     def get_latest(self):
         query = self.cur.execute("SELECT * FROM measurements WHERE ")
@@ -31,4 +38,4 @@ class DataHandler:
 
 if __name__ == '__main__':
     dh = DataHandler()
-    dh.add_row(200021, 4.521, 25.12, 333.21)
+    res = dh.get_range(dt.datetime(2021, 1, 1), dt.datetime(2022, 1, 1))
