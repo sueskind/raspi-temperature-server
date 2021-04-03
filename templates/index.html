@@ -68,7 +68,7 @@
 
 
     async function initialize() {
-        const res = await fetch("/previous");
+        const res = await fetch("/range");
         const data = await res.json();
 
         chart.data.labels = data.times;
