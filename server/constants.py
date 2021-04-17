@@ -11,3 +11,6 @@ os.makedirs(DB_DIR, exist_ok=True)
 # sensors
 SENSOR_FILENAMES = ["28-3c01d6073e19", "28-3c01d607ac47", "28-3c01d607f173"]
 SENSOR_PATH_FMT = "/sys/bus/w1/devices/{}/w1_slave"
+
+# API
+RANGE_MEASUREMENT_COUNT = 100

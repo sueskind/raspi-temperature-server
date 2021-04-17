@@ -5,7 +5,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 import measure
-from constants import DB_PATH
+from constants import DB_PATH, RANGE_MEASUREMENT_COUNT
 
 app = Flask(__name__, template_folder="../templates")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + DB_PATH
@@ -36,11 +36,15 @@ def get_range():
         "times": [],
         "sensors": [[], [], []]
     }
-    for r in results:
-        out["times"].append(r.time.isoformat())
-        out["sensors"][0].append(r.sensor1)
-        out["sensors"][1].append(r.sensor2)
-        out["sensors"][2].append(r.sensor3)
+
+    # only send every n-th record
+    every_nth = len(results) // RANGE_MEASUREMENT_COUNT
+    for i, r in enumerate(results):
+        if i % every_nth == 0:
+            out["times"].append(r.time.isoformat())
+            out["sensors"][0].append(r.sensor1)
+            out["sensors"][1].append(r.sensor2)
+            out["sensors"][2].append(r.sensor3)
     return out
 
 
