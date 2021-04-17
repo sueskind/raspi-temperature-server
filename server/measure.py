@@ -30,6 +30,7 @@ def measurements_loop():
 
             conn.commit()
 
+            last_measurements = measurements
             time.sleep(1)
 
     finally:
